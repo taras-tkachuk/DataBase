@@ -179,15 +179,6 @@ Sold date: {row[3]}\nFirst town: {row[4]}\n\n")
             self.view.message_print("No data found")
 
 def validate_input(attr_name, attr_value):
-    bound_check = list(attr_name.split(' '))
-    if len(bound_check) > 1:
-        if bound_check[1] == "Lower" or bound_check[1] == "Upper":
-            attr_name = bound_check[0]
-    if attr_name.find("table") != -1:
-        if (attr_value == "Bus" or attr_value =="Driver" or attr_value == "Passenger"
-        or attr_value == "Route" or attr_value == "Ticket" or attr_value == "route_bus"):
-            return True
-        return False
     if "id" in attr_name:
         if attr_value.isdecimal():
             return True
@@ -204,10 +195,11 @@ def validate_input(attr_name, attr_value):
         if attr_value.isdecimal():
             return True
     elif attr_name == "bus_number":
-        li = list(attr_value.split(" "))
-        if li[0].isalpha() and li[2].isalpha():
-            if li[1].isdecimal:
-                return True
+        if attr_value.count(" ") != 2:
+            return False
+        li = attr_value.split(" ")
+        if li[0].isalpha() and li[2].isalpha() and li[1].isdecimal():
+            return True
         return False
     elif "town" in attr_name:
         li = list(attr_value.split(" "))
